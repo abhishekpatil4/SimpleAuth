@@ -16,6 +16,7 @@ const Signin = () => {
             await signInWithEmailAndPassword(auth, payload.email, payload.password);
             console.log("logged in!");
             setSigningIn(false);
+            navigate('/');
         } catch (error) {
             console.log(error.message);
             setSigningIn(false);

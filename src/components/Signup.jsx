@@ -20,6 +20,7 @@ const Signup = () => {
             try {
                 await createUserWithEmailAndPassword(auth, payload.email, payload.password);
                 console.log("user created!");
+                navigate('/');
             } catch (error) {
                 console.log(error);
             }
