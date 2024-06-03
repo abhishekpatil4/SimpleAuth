@@ -3,10 +3,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/Firebase";
 import { useState } from "react";
 import { Audio } from "react-loader-spinner";
+import { useSnackbar } from "notistack";
 
 const Signin = () => {
     const navigate = useNavigate();
     const [signingIn, setSigningIn] = useState(false);
+    const { enqueueSnackbar } = useSnackbar();
     const handleSignin = async (event) => {
         setSigningIn(true);
         event.preventDefault();
@@ -14,11 +16,21 @@ const Signin = () => {
         const payload = Object.fromEntries(data);
         try {
             await signInWithEmailAndPassword(auth, payload.email, payload.password);
-            console.log("logged in!");
+            enqueueSnackbar("Signed In", {
+                variant: 'success', anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                }
+            })
             setSigningIn(false);
             navigate('/');
         } catch (error) {
-            console.log(error.message);
+            enqueueSnackbar(error.message, {
+                variant: 'error', anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                }
+            })
             setSigningIn(false);
         }
     }

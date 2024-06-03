@@ -3,26 +3,42 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/Firebase";
 import { useState } from "react";
 import { Audio } from 'react-loader-spinner'
-
+import { useSnackbar } from "notistack";
 
 const Signup = () => {
     const navigate = useNavigate();
     const [signingUp, setSigningUp] = useState(false);
+    const { enqueueSnackbar } = useSnackbar();
     const handleSignin = async (event) => {
         setSigningUp(true);
         event.preventDefault();
         const data = new FormData(event.target);
         const payload = Object.fromEntries(data);
         if (payload.password !== payload.password2) {
-            alert("passwords don't match!");
+            enqueueSnackbar("Password doesn't match!", {
+                variant: 'warning', anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                }
+            })
             setSigningUp(false);
         } else {
             try {
                 await createUserWithEmailAndPassword(auth, payload.email, payload.password);
-                console.log("user created!");
+                enqueueSnackbar("Account Created", {
+                    variant: 'success', anchorOrigin: {
+                        vertical: 'bottom',
+                        horizontal: 'center'
+                    }
+                })
                 navigate('/');
             } catch (error) {
-                console.log(error);
+                enqueueSnackbar(error.message, {
+                    variant: 'error', anchorOrigin: {
+                        vertical: 'bottom',
+                        horizontal: 'center'
+                    }
+                })
             }
             setSigningUp(false);
         }

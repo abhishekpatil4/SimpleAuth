@@ -15,6 +15,8 @@ import {
 } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from './config/Firebase';
+import { SnackbarProvider } from 'notistack'
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -29,12 +31,14 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar user={user}/>
-        <Routes>
-          <Route path="/" element={<Home user={user}/>} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-        </Routes>
+        <SnackbarProvider>
+          <Navbar user={user} />
+          <Routes>
+            <Route path="/" element={<Home user={user} />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+          </Routes>
+        </SnackbarProvider>
       </BrowserRouter>
     </>
   )

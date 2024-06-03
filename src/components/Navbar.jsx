@@ -5,18 +5,31 @@ import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/Firebase";
+import { useSnackbar } from "notistack";
 
 const Navbar = ({ user }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const isSmallScreen = useMediaQuery('(max-width: 400px)');
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleSignout = async () => {
         try {
             signOut(auth);
-            console.log("signed out!");
+            enqueueSnackbar("Signed out", {
+                variant: 'success', anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                }
+            });
         } catch (error) {
             console.log(error);
+            enqueueSnackbar(error.message, {
+                variant: 'error', anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                }
+            });
         }
     }
 
