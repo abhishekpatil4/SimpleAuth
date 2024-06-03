@@ -17,6 +17,9 @@ const Home = ({ user }) => {
             </span></h1>
         {
             user !== null && <div>
+                {
+                    user.displayName && <h3>User name: {user.displayName}</h3>
+                }
                 <h3>User email: {user.email}</h3>
             </div>
         }

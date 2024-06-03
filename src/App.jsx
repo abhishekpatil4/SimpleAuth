@@ -23,6 +23,7 @@ function App() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUser(user);
+      console.log("user: ", user);
     } else {
       setUser(null);
     }
