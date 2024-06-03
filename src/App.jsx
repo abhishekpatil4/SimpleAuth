@@ -13,15 +13,25 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from './config/Firebase';
 
 function App() {
+  const [user, setUser] = useState(null);
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUser(user);
+    } else {
+      setUser(null);
+    }
+  });
 
   return (
     <>
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home user={user}/>} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
         </Routes>
