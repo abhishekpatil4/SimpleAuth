@@ -13,7 +13,7 @@ const Navbar = () => {
             <h2>SimpleAuth</h2>
         </div>
         {
-            location.pathname !== "/signin" &&
+            location.pathname === "/" &&
             <button onClick={() => navigate('/signin')} style={{ minWidth: isSmallScreen ? '4rem' : '8rem' }}>
                 {
                     isSmallScreen ?
