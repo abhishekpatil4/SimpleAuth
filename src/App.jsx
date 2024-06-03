@@ -29,7 +29,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar />
+        <Navbar user={user}/>
         <Routes>
           <Route path="/" element={<Home user={user}/>} />
           <Route path="/signup" element={<Signup />} />
