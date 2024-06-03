@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/Firebase";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -6,7 +8,16 @@ const Signup = () => {
         event.preventDefault();
         const data = new FormData(event.target);
         const payload = Object.fromEntries(data);
-        console.log("payload: ", payload);
+        if (payload.password !== payload.password2) {
+            alert("passwords don't match!");
+        } else {
+            try {
+                await createUserWithEmailAndPassword(auth, payload.email, payload.password);
+                console.log("user created!");
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
     return <div style={{ maxWidth: '25rem', margin: 'auto' }}>
         <h3>Create New Account</h3>
