@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/Firebase";
 import { useState } from "react";
 import { Audio } from "react-loader-spinner";
