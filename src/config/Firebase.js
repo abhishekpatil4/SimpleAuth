@@ -35,11 +35,13 @@ export const addUserData = async (userID, firstName, lastName, email) => {
 
 export const getUserData = async () => {
     const querySnapshot = await getDocs(collection(db, "users"));
+    const arr = [];
     // return querySnapshot;
     querySnapshot.forEach((doc) => {
-        // console.log(`${doc.id} => ${doc.data()}`);
-        console.log("data: ", doc.data());
+        arr.push({
+            firstName: doc.data().firstName,
+            lastName: doc.data().lastName
+        })
     });
+    return arr;
 }
-
-getUserData();
