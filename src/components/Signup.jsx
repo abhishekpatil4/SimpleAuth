@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Audio } from 'react-loader-spinner'
 import { useSnackbar } from "notistack";
 import { FcGoogle } from "react-icons/fc";
+import { addUserData } from "../config/Firebase";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -49,13 +50,14 @@ const Signup = () => {
             setSigningUp(false);
         } else {
             try {
-                await createUserWithEmailAndPassword(auth, payload.email, payload.password);
+                const newUser = await createUserWithEmailAndPassword(auth, payload.email, payload.password);
                 enqueueSnackbar("Account Created", {
                     variant: 'success', anchorOrigin: {
                         vertical: 'bottom',
                         horizontal: 'center'
                     }
                 })
+                addUserData(newUser.user.uid, payload.firstName, payload.lastName, payload.email);
                 navigate('/');
             } catch (error) {
                 enqueueSnackbar(error.message, {
@@ -71,6 +73,8 @@ const Signup = () => {
     return <div style={{ maxWidth: '25rem', margin: 'auto' }}>
         <h3>Create New Account</h3>
         <form onSubmit={handleSignin} style={{ gap: 10, display: 'flex', justifyContent: "center", flexDirection: 'column' }}>
+            <input required name="firstName" style={{ minHeight: '2.8rem', paddingLeft: '0.8rem', borderRadius: '8px', border: '0px' }} type="text" placeholder="First Name" />
+            <input required name="lastName" style={{ minHeight: '2.8rem', paddingLeft: '0.8rem', borderRadius: '8px', border: '0px' }} type="text" placeholder="Last Name" />
             <input required name="email" style={{ minHeight: '2.8rem', paddingLeft: '0.8rem', borderRadius: '8px', border: '0px' }} type="text" placeholder="Email" />
             <input required name="password" style={{ minHeight: '2.8rem', paddingLeft: '0.8rem', borderRadius: '8px', border: '0px' }} type="password" placeholder="Password" />
             <input required name="password2" style={{ minHeight: '2.8rem', paddingLeft: '0.8rem', borderRadius: '8px', border: '0px' }} type="password" placeholder="Confirm Password" />

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_apiKey,
@@ -16,7 +16,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 
 const db = getFirestore(app);
-export const addData = async ({ userID, firstName, lastName, email }) => {
+
+export const addUserData = async (userID, firstName, lastName, email) => {
     try {
         const docRef = await addDoc(collection(db, "users"), {
             userID: userID,
@@ -29,3 +30,16 @@ export const addData = async ({ userID, firstName, lastName, email }) => {
         console.error("Error adding document: ", e);
     }
 }
+
+
+
+export const getUserData = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    // return querySnapshot;
+    querySnapshot.forEach((doc) => {
+        // console.log(`${doc.id} => ${doc.data()}`);
+        console.log("data: ", doc.data());
+    });
+}
+
+getUserData();
